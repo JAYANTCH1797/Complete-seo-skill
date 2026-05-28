@@ -1,0 +1,18 @@
+# Credentials
+config/reddit_config.json
+config/semrush_config.json
+
+# Inito-specific audit outputs
+batch*-seo-audit.md
+assets/keyword-research-inito-*.md
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS
+.DS_Store
