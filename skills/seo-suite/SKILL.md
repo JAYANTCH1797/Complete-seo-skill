@@ -7,13 +7,9 @@ description: >
   Trigger on: "SEO", "audit", "keyword research", "backlinks", "technical SEO",
   "content optimization", "SERP", "competitor analysis", "content brief",
   "topic cluster", "content gap".
-user-invokable: true
+user-invocable: true
 argument-hint: "[command] [url|keyword|topic]"
 allowed-tools: Read, Grep, Glob, Bash, WebFetch, WebSearch, Agent
-metadata:
-  author: jayant
-  version: "0.1.0"
-  license: MIT
 ---
 
 # SEO Suite
