@@ -1,11 +1,24 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "complete-seo-skill",
+  "description": "Comprehensive SEO analysis and optimization suite — technical audits, keyword research, on-page optimization, content evaluation, and more.",
+  "owner": {
+    "name": "Jayant Chauhan",
+    "email": "jayant.chauhan@inito.com"
+  },
   "plugins": [
     {
-      "id": "complete-seo-skill",
+      "name": "complete-seo-skill",
+      "description": "SEO suite with 10 skill modules for technical audits, keyword research, on-page optimization, content evaluation, backlink analysis, competitor benchmarking, and content strategy.",
+      "author": {
+        "name": "Jayant Chauhan"
+      },
+      "category": "marketing",
       "source": {
         "source": "github",
         "repo": "JAYANTCH1797/Complete-seo-skill"
-      }
+      },
+      "homepage": "https://github.com/JAYANTCH1797/Complete-seo-skill"
     }
   ]
 }
