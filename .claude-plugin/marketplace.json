@@ -1,0 +1,11 @@
+{
+  "plugins": [
+    {
+      "id": "complete-seo-skill",
+      "source": {
+        "source": "github",
+        "repo": "JAYANTCH1797/Complete-seo-skill"
+      }
+    }
+  ]
+}
