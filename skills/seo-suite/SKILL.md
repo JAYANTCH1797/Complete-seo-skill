@@ -21,7 +21,7 @@ Match the user's request to the correct reference module. Load the reference fil
 | User Says | Load Reference | Description |
 |-----------|---------------|-------------|
 | "technical audit", "crawl issues", "site speed", "robots.txt", "CWV", "Core Web Vitals", "indexing issues", "redirect audit", "security headers" | `../../references/technical-seo.md` | 13-category technical SEO audit |
-| "keyword research", "search volume", "keyword difficulty", "find keywords", "what to target" | `../../references/keyword-research.md` | Query intent, volume analysis, KD scoring, keyword clustering |
+| "keyword research", "search volume", "keyword difficulty", "find keywords", "what to target", "fan-out", "sub-clusters", "what should this blog cover" | `../../references/keyword-research.md` | Query intent, volume analysis, KD scoring, sub-cluster fan-out (LLM + Semrush + PAA), existing content refresh |
 | "content gap", "competitor keywords", "missing topics", "what are they ranking for" | `../../references/content-gap.md` | Competitor URL diffing, missing topic detection |
 | "topic cluster", "pillar page", "content strategy", "content calendar", "content pruning" | `../../references/content-cluster.md` | Pillar/spoke mapping, internal linking strategy, cannibalization |
 | "evaluate content", "is this good enough to rank", "content review", "compare against competitors", "pre-publish review", "GEO optimize", "AI optimization" | `../../references/content-evaluation.md` | Gate check: content competitiveness, competitor analysis (content + backlinks), E-E-A-T, GEO/AI extraction, featured snippets |
@@ -83,3 +83,5 @@ For checks requiring a real browser: JS rendering, soft 404 detection, mobile re
 Keyword research is a multi-phase workflow with multiple entry points. Load `../../references/keyword-research.md` for the full process.
 
 Phase 1 starts with seed research — Claude offers four paths: online research (Reddit/web), user-provided insights (sales calls, support, ORM), competitor gap analysis (defers to `../../references/content-gap.md`), or specific topic expansion. Paths can be combined. Claude presents findings and waits before moving to Semrush validation.
+
+Phase 2 now includes **sub-cluster fan-out** (step 2e): for each priority seed, map the sub-topics the content must cover using three sources — Claude decomposition (generation), Semrush `phrase_questions` (validation with volume/KD), and user-provided Google PAA questions (ground truth). The cross-matched sub-cluster table feeds into both new content (defines sections to write) and existing content refresh (surfaces missing sections to add).

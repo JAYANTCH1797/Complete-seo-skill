@@ -18,14 +18,16 @@ Phase 2: Keyword Validation (Semrush) — only after user says proceed
   2b. Expand top seeds into question clusters (phrase_questions)
   2c. Current rankings check (domain_organic) — skip if done in Path C
   2d. SERP feature check for top 5-10 seeds (phrase_organic)
-  2e. Prioritization scoring (5-factor + E-E-A-T flag)
+  2e. Sub-cluster fan-out — map sub-topics each seed must cover
+  2f. Prioritization scoring (6-factor incl. AI-surface gap + E-E-A-T flag)
   FALLBACK: If Semrush MCP unavailable → WebSearch-based validation
 
 >>> GATE: Present ranked ideas with content types and funnel map. STOP. <<<
 
 Phase 3: Deliverable
-  - New content ideas table (with content type, funnel stage, E-E-A-T flag)
-  - Quick wins table (existing pages to optimize)
+  - New content ideas table (with fan-out sub-clusters, content type, funnel stage)
+  - Existing content refresh (low organic + no AIO → sub-cluster gap → add sections)
+  - Quick wins table (position-based)
   - Funnel balance summary
 ```
 
@@ -132,9 +134,12 @@ This avoids duplicating gap analysis logic. `keyword-research.md` owns the pipel
 **Pre-checks before expanding:**
 
 1. **Existing coverage:** Run `domain_organic` filtered for the keyword — does the user already rank? If yes, this is an optimization opportunity, not new content. Flag cannibalization risk if multiple pages target it.
-2. **Scope assessment:** Is the keyword too broad ("fertility") or too narrow ("inito test strip lot 2847")? If too broad, ask user to narrow. If too narrow, suggest the parent topic.
+2. **Scope assessment:** Is the input too broad or too narrow?
+   - **Too broad** ("fertility", "ovulation") — this is a **seed topic**, not a seed keyword. Don't ask the user to narrow it. Instead, treat it as input for Phase 1 discovery: run Paths A/B/C to decompose the topic into specific seed keywords, then return to the Research Gate with those keywords. A seed topic yields multiple content pieces; a seed keyword yields one.
+   - **Too narrow** ("inito test strip lot 2847") — suggest the parent topic.
+   - **Just right** ("ovulation pain", "late ovulation pregnancy") — this is a seed keyword. Proceed with Semrush expansion below.
 
-Then expand via Semrush:
+Then expand seed keywords via Semrush:
 - `phrase_related` — semantically related terms
 - `phrase_questions` — question variants (who/what/how/why)
 - `phrase_fullsearch` — all keyword variations containing the seed
@@ -251,19 +256,56 @@ Use this to determine:
 - **Video carousel?** → consider video content
 - **Who ranks #1-3?** → assess competitive difficulty from actual SERPs, not just KD score
 
-### 2e. Prioritization Scoring
+### 2e. Sub-cluster Fan-out
+
+For the top 3-5 seeds by business value, map the sub-topics the content must cover. Three sources, cross-matched:
+
+**Source 1 — LLM decomposition (Claude):**
+Prompt Claude with the seed as a natural question:
+> "For the topic '[seed]', list every sub-question a searcher might need answered. Include conversational phrasings, not just keyword-style queries."
+
+Run 2-3 times, keep recurring sub-questions. This is the **generation** step — broad, fast, zero-cost.
+
+**Source 2 — Semrush `phrase_questions`:**
+Already run in step 2b. These are data-backed question variants with volume + KD. This is the **validation** step — confirms which sub-topics have measurable search demand.
+
+**Source 3 — Google PAA (user-provided):**
+Ask the user:
+> "Google your top 3-5 seed keywords and share the People Also Ask questions you see (usually 5-10 per keyword). These are the sub-queries Google itself thinks this topic decomposes into."
+
+PAA is ground truth — it's what Google actually shows searchers. Can't be scraped reliably, but takes the user 2 minutes per seed.
+
+**Cross-match and output:**
+
+| Sub-cluster | LLM | Semrush | PAA | Vol | KD | In existing content? | Action |
+|---|:---:|:---:|:---:|---|---|---|---|
+
+- **All 3 sources agree** → must-cover, high confidence
+- **2 of 3 agree** → strong sub-cluster, include
+- **Semrush-only** → data-backed addition, include with volume/KD
+- **LLM-only** → hypothesis — may be real demand at zero tool volume (validate against Reddit/user data if available)
+- **PAA-only** → Google thinks it matters — include
+
+This table feeds into both:
+- **New content:** defines the sections/headings the piece must answer before publishing
+- **Existing content refresh:** compare against current page → missing sub-clusters = sections to add/rewrite (see Phase 3)
+
+---
+
+### 2f. Prioritization Scoring
 
 | Factor | Score 1 | Score 2 | Score 3 | Weight |
 |--------|---------|---------|---------|--------|
 | Business Value | Tangential | Related | Product IS the answer | **3×** |
-| Search Volume | <100/mo | 100–1K/mo | >1K/mo | **1×** |
 | KD (ease) | >70 | 30–70 | <30 | **2×** |
 | Intent Match | Informational | Commercial investigation | Transactional | **2×** |
 | Content Gap | Already ranking | Partial coverage | No coverage + competitor ranks | **2×** |
+| AI-surface gap | Cited in AIO / no fan-out gap | Fan-out exists, parity with competitors | Competitors cited, you absent | **2×** |
+| Search Volume | <100/mo | 100–1K/mo | >1K/mo | **1×** |
 
-**Weighted total** = (BV × 3) + (Vol × 1) + (KD_ease × 2) + (Intent × 2) + (Gap × 2)
+**Weighted total** = (BV × 3) + (KD × 2) + (Intent × 2) + (Gap × 2) + (AI_gap × 2) + (Vol × 1)
 
-Max = 30. **Prioritize 25+.** Below 18 = deprioritize unless it defends brand.
+Max = 36. **Prioritize 30+.** Volume is a tiebreaker, not the gate — a zero-volume sub-cluster that appears in all three fan-out sources can still score high.
 
 **Traffic potential > raw volume:** A page ranking #1 for a 400-volume keyword typically ranks for 100+ related variants. Use `phrase_related` to estimate true cluster size before dismissing a "low volume" seed.
 
@@ -298,8 +340,10 @@ Present after Phase 2 validation.
 
 | Priority | Title | Head Keyword | Vol | KD | Intent | Funnel | Content Type | YMYL | SERP Opp. | Score |
 |----------|-------|-------------|-----|----|--------|--------|-------------|------|-----------|-------|
-| 1 | … | … | … | … | Commercial | Decision | Comparison page | — | Featured snippet | 29 |
-| 2 | … | … | … | … | Informational | Awareness | Blog post / guide | YMYL | PAA | 27 |
+| 1 | … | … | … | … | Commercial | Decision | Comparison page | — | Featured snippet | 34 |
+| 2 | … | … | … | … | Informational | Awareness | Blog post / guide | YMYL | PAA | 31 |
+
+**Fan-out sub-clusters per content piece:** For each new content idea, include the sub-cluster table from step 2e. This defines the sections/headings the piece must answer. Hand off to `references/content-brief.md` with the sub-cluster list attached — the brief should map each sub-cluster to a section.
 
 **Content type mapping:**
 | Intent | Default Content Type |
@@ -316,12 +360,32 @@ Present after Phase 2 validation.
 | Consideration | "best X", "X vs Y", "X review", comparison queries |
 | Decision | "buy X", "X price", "[brand] + product", transactional queries |
 
-### Quick Wins (Existing Pages to Optimize)
+### Existing Content Refresh (sub-cluster gap)
+
+**Priority signal:** pages with low organic ranking (positions 4-20) AND/OR low/no AI Overview appearance for their main keyword.
+
+**Workflow:**
+1. Identify candidate pages: `domain_organic` → positions 4-20 with volume, OR pages the user flags as having no AIO citation
+2. For each candidate's main keyword, run sub-cluster fan-out (step 2e) — LLM decomposition + Semrush `phrase_questions` + user-provided PAA
+3. Compare sub-clusters against the page's current content — which clusters does it adequately cover?
+4. Prioritize missing clusters by KD + volume
+5. Recommend: add sections for missing clusters, rewrite sections with weak coverage
+
+| Page URL | Main Keyword | Position | Vol | Missing Sub-clusters | Priority Additions | Effort |
+|----------|-------------|----------|-----|---------------------|-------------------|--------|
+| … | … | 12 | 8K | [cluster 1], [cluster 2] | Add 2 sections | Moderate (half day) |
+| … | … | 7 | 5K | [cluster 3] | Rewrite 1 section | Quick (1-2 hrs) |
+
+Fan-out applies to existing content too — the same sub-cluster analysis that structures new content also diagnoses gaps in existing content.
+
+### Quick Wins (Position-based)
+
+Pages where no sub-cluster gap exists — the content is adequate but needs on-page optimization to move up.
 
 | Page URL | Current Keyword | Position | Volume | Fix Required | Effort |
 |----------|----------------|----------|--------|-------------|--------|
 | … | … | 12 | 60,500 | On-page optimization | Quick (1-2 hrs) |
-| … | … | 8 | 40,500 | Content refresh + heading structure | Moderate (half day) |
+| … | … | 8 | 40,500 | Heading structure + internal links | Moderate (half day) |
 
 ### Funnel Balance Summary
 
@@ -370,3 +434,7 @@ python3 scripts/reddit_miner.py --subreddits X,Y --search "phrase" --json     # 
 **Community signals validate what tools can't.** A subreddit thread with 200 upvotes is confirmed demand. A keyword tool might show that query at 10 or zero volume. Both are true — the demand exists but people phrase it conversationally, not as bare keywords.
 
 **YMYL topics need E-E-A-T awareness, not avoidance.** Health/fertility keywords are YMYL, but that doesn't mean they're unrankable. It means the content needs expert backing (citations, medical review, author credentials). Flag it so the user can plan for the extra effort.
+
+**Fan-out cross-validation beats any single source.** Claude generates broad sub-questions, Semrush validates with volume/KD, and Google PAA shows what the engine actually decomposes the query into. The intersection of all three is the highest-confidence sub-cluster list. Claude-only items may represent real demand at zero tool volume — cross-check against Reddit/user data before dismissing.
+
+**Existing content gaps hide in sub-clusters.** A page can rank position 8 for its main keyword but miss 3 of 5 sub-clusters entirely. Fan-out analysis on existing pages surfaces these gaps — adding the missing sections is often higher-ROI than writing new content from scratch.
