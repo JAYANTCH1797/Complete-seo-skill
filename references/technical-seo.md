@@ -2,7 +2,7 @@
 
 Run a technical SEO audit across 13 categories. For each category, follow the checks below and classify every finding as Critical / High / Medium / Low priority.
 
-Use `scripts/crawl_audit.py` for HTTP-level checks and `scripts/browser_automation.py` (Playwright) for browser-level checks. Fall back to `requests` + BeautifulSoup when Playwright is unavailable, and note which browser checks were skipped.
+Use `scripts/crawl_audit.py` for HTTP-level checks. For browser-level checks the order is **Playwright MCP** (bundled with this plugin, no local install) → `scripts/browser_automation.py` (three checks only: `js_render`, `mobile`, `mixed_content`) → `requests` + BeautifulSoup. Note which browser checks were skipped at whichever tier you land on.
 
 ---
 
@@ -473,7 +473,8 @@ Each issue should include: what's wrong, where (specific URL), why it matters, a
 | robots.txt not found | Note absence. Recommend creating one. Continue audit on remaining categories. |
 | HTTPS not configured | Flag as **Critical**. Report HTTP-only, mixed content, or certificate issues. |
 | CWV field data unavailable | Note CrUX unavailable (common for low-traffic sites). Use Lighthouse lab data as proxy. |
-| Playwright not available | Fall back to requests + BeautifulSoup. Note skipped checks: JS rendering comparison, soft 404 detection, mixed content monitoring, mobile rendering, CWV lab data. |
+| Playwright MCP not connected | Fall back to `scripts/browser_automation.py` (js_render, mobile, mixed_content only). |
+| Playwright unavailable entirely | Fall back to requests + BeautifulSoup. Note skipped checks: JS rendering comparison, soft 404 detection, mixed content monitoring, mobile rendering, CWV lab data. |
 | Sitemap not found | Note absence. Try common locations. Recommend creating and submitting via GSC. |
 | GSC data not available | Skip crawl stats and striking-distance keyword analysis. Note in output. |
 | Semrush MCP not available | Skip backlink-based quick wins (404s with backlinks). Note in output. |

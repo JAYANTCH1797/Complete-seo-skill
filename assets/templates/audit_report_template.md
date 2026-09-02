@@ -1,7 +1,7 @@
 # SEO Audit Report: {domain}
 
 **Date**: {date}
-**Audited by**: SEO Suite v0.2.0
+**Audited by**: SEO Suite
 
 ---
 
@@ -33,19 +33,20 @@
 ### Score Breakdown
 | # | Category | Score | Weight | Key Finding |
 |---|---|---|---|---|
+| 0 | Intent Alignment | X | /6 | {finding} |
 | 1 | URL Slug | X | /5 | {finding} |
 | 2 | Title Tag | X | /10 | {finding} |
 | 3 | Meta Description | X | /10 | {finding} |
 | 4 | H1 | X | /5 | {finding} |
 | 5 | Heading Architecture | X | /8 | {finding} |
 | 6 | Keyword & Semantic Coverage | X | /7 | {finding} |
-| 7 | Schema Markup | X | /10 | {finding} |
+| 7 | Schema Markup | X | /6 | {finding} |
 | 8 | OG & Social Tags | X | /5 | {finding} |
 | 9 | Linking | X | /10 | {finding} |
 | 10 | Media Optimization | X | /8 | {finding} |
 | 11 | Content Structure | X | /7 | {finding} |
 | 12 | E-E-A-T Signals | X | /8 | {finding} |
-| 13 | Technical Crawlability | X | /7 | {finding} |
+| 13 | Technical Crawlability | X | /5 | {finding} |
 | | **TOTAL** | **XX** | **/100** | |
 
 ---

@@ -150,7 +150,13 @@ Assessable weight = sum of weights of scored categories only
 Normalized score   = (sum of scored points ÷ assessable weight) × 100
 ```
 
-State it explicitly, e.g.: *"Scored 47 / 60 assessable points → normalized 78/100 (B-). Five HTML-dependent categories were N/A in draft mode; re-audit the live URL to score them."*
+**Assessable weight is 71**, using the standard convention below. Category 9 is split: half its weight (5 of 10) is the content/anchor side you can score from a draft, half is link resolution you cannot.
+
+| Scored | 0 Intent 6 · 1 Slug 5 · 2 Title 10 · 3 Meta 10 · 4 H1 5 · 5 Headings 8 · 6 Keyword 7 · 9 Linking 5 (half) · 11 Structure 7 · 12 E-E-A-T 8 | **71** |
+|---|---|---|
+| N/A | 7 Schema 6 · 8 OG 5 · 9 Linking 5 (half) · 10 Media 8 · 13 Technical 5 | 29 |
+
+State it explicitly, e.g.: *"Scored 55 / 71 assessable points → normalized 77/100 (B-). Five HTML-dependent categories were N/A in draft mode; re-audit the live URL to score them."*
 
 **Always close a draft audit** with the build-time checklist: the N/A categories become the post-publish to-do list (add schema, OG tags, alt text + next-gen formats, verify canonical/robots), followed by a full re-audit of the live URL.
 
@@ -347,7 +353,7 @@ keyword_research(keyword="[primary keyword]", type="phrase_related") → semanti
 
 | Schema | When | Notes |
 |---|---|---|
-| `FAQPage` | Page has a genuine Q&A accordion section | Rich-result eligibility has been restricted to certain domain types and changes over time — **verify current eligibility before relying on it**. On Elementor sites, FAQ schema is auto-generated inside accordion widgets — check the body HTML, not just `<head>`. |
+| `FAQPage` | **Detect and flag — do not recommend adding it.** | Rich-result eligibility was restricted to a narrow set of domain types in 2023 and keeps shifting; for most sites it earns nothing. Never deduct points for its absence. If it is already present, verify current eligibility and check the *body* HTML — on Elementor sites it is auto-generated inside accordion widgets, not in `<head>`. |
 | `MedicalWebPage` | YMYL health content | `medicalSpecialty`, `reviewedBy`, `audience`. Strongly recommended for clinical/symptom content. Missing this on health content is a meaningful gap. |
 | `Review` / `itemReviewed` | Review pages | For genuine first-party reviews: `itemReviewed`, `author`, `reviewRating`. Note Google restricts self-serving review markup — cleaner on a third-party domain than on the brand's own site. |
 | `Person` (author) | Named author | `jobTitle`, `name`, `sameAs` → LinkedIn or institutional profile |
@@ -364,7 +370,7 @@ keyword_research(keyword="[primary keyword]", type="phrase_related") → semanti
 **Scoring guidance:**
 - 6: All required + all applicable conditional schemas, no deprecated types, validated
 - 4–5: Required schemas present, one conditional missing (e.g., MedicalWebPage on health content)
-- 2–3: Required schemas present but FAQPage missing despite FAQ content, or deprecated HowTo present
+- 2–3: Required schemas present but `MedicalWebPage` missing on YMYL content, or a deprecated type (`HowTo`) present
 - 0–1: Required schemas missing (no Article/BlogPosting or no BreadcrumbList)
 
 ---

@@ -57,8 +57,8 @@ When auditing or creating a specific piece of content, follow this sequence:
 
 ### Scripts (run via Bash)
 - `../../scripts/crawl_audit.py <url>` — Technical SEO spider: status codes, canonicals, robots.txt, redirects, internal links
-- `../../scripts/browser_automation.py <url>` — Playwright: JS rendering comparison, mobile emulation, mixed content, CWV lab data
-- `../../scripts/semrush_api.py` — Semrush API wrapper for keyword/domain/backlink data
+- `../../scripts/browser_automation.py <url> --check js_render|mobile|mixed_content` — Playwright: JS render comparison, mobile emulation, mixed content. **Three checks only — no CWV, no soft-404, no link crawling.**
+- `../../scripts/semrush_api.py` — **stub, not runnable.** Documents the Semrush MCP tool names only; contains no executable code. Do not call it as a fallback.
 - `../../scripts/serp_scraper.py` — SERP feature extraction
 - `../../scripts/utils.py` — Shared helpers (URL normalization, HTTP fetching, output formatting)
 
@@ -66,7 +66,7 @@ When auditing or creating a specific piece of content, follow this sequence:
 
 This plugin bundles both. **Check which is actually connected before assuming**, and say which one supplied the numbers in every report — the two providers' volume and difficulty figures are not interchangeable, so never mix them in one comparison.
 
-Preference order: Semrush MCP → Ahrefs MCP → `../../scripts/semrush_api.py` (needs `config/semrush_config.json`) → public SERP/WebSearch with the limitation stated.
+Preference order: Semrush MCP → Ahrefs MCP → public SERP data via WebSearch/`serp_scraper.py`, with the limitation stated in the report. There is **no working direct-API fallback** — `scripts/semrush_api.py` is a stub. If neither provider is connected, say the volume/KD figures are unavailable rather than estimating them.
 
 **Semrush MCP tools:**
 - `keyword_research` — Search volume, difficulty, intent, related keywords

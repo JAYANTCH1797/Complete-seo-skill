@@ -1,9 +1,9 @@
 # SEO Suite Plugin
 
 ## Structure
-- `SKILL.md` — Master router. Match user intent → load the right `references/*.md` file.
+- `skills/` — Three skills: `seo-suite/SKILL.md` (master router — match user intent → load the right `references/*.md`), `seo-audit/SKILL.md` (scored 14-category on-page audit, live-URL + draft modes), `content-qa/SKILL.md` (browser QA of a published URL).
 - `references/` — Deep knowledge files. Each is a self-contained methodology for one SEO domain.
-- `scripts/` — Python utilities. Run via Bash. All support `--json` output.
+- `scripts/` — Python CLIs (`crawl_audit.py`, `browser_automation.py`, `serp_scraper.py`, `reddit_miner.py`), all supporting `--json`. `utils.py` is a shared library, not a CLI. `semrush_api.py` is a **stub with no executable code** — never call it.
 - `assets/templates/` — Output templates for reports and briefs.
 - `assets/prompts/` — Reusable LLM prompts for enrichment steps.
 - `config/` — User-configurable settings (competitors, API keys).

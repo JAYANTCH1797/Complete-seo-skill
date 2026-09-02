@@ -51,7 +51,7 @@ If you have Semrush / SERP tools available, use intake answers to pull the compe
 **Draft mode in brief** (full protocol + normalization formula in the reference):
 - **Score:** 0 Intent · 1 Slug\* · 2 Title\* · 3 Meta\* · 4 H1 · 5 Headings · 6 Keyword/Entities · 9 Linking (content side) · 11 Structure · 12 E-E-A-T (\* against proposed values if specified).
 - **Mark N/A:** 7 Schema · 8 OG/Social · 10 Media · 13 Technical · and the link-resolution half of 9.
-- **Normalize:** `(scored points ÷ assessable weight) × 100`. Never report a raw sum as /100. State it, e.g. *"47/60 assessable → 78/100 (B-); 5 HTML categories N/A."*
+- **Normalize:** `(scored points ÷ assessable weight) × 100`. Assessable weight is **71** (Category 9 counts half — the content/anchor side). Never report a raw sum as /100. State it, e.g. *"55/71 assessable → 77/100 (B-); 5 HTML categories N/A."*
 - **Always close** with the build-time checklist (the N/A categories become the post-publish to-do list), then recommend a live-URL re-audit.
 
 ### Step 2 — Score against the rubric
