@@ -14,7 +14,9 @@ allowed-tools: Read, Grep, Glob, Bash, WebFetch, WebSearch, Agent
 
 # SEO Suite
 
-> **Sibling skill:** on-page auditing lives in the standalone `seo-audit` skill (`skills/seo-audit/SKILL.md`). It shares this plugin's `references/on-page-optimization.md` rubric but adds the pre-analysis intake and the live-URL vs. draft scoring modes. Route on-page requests there.
+> **Sibling skills.** Two capabilities live in their own skills, not in this routing table:
+> - `seo-audit` (`skills/seo-audit/SKILL.md`) — scored on-page audit. Shares this plugin's `references/on-page-optimization.md` rubric, and adds the pre-analysis intake plus live-URL vs. draft scoring modes.
+> - `content-qa` (`skills/content-qa/SKILL.md`) — real-browser QA of a published page (render parity, mobile, broken assets, console errors). Use after a publish or deploy.
 
 ## Routing Table
 
@@ -32,6 +34,8 @@ Match the user's request to the correct reference module. Load the reference fil
 | "backlinks", "link building", "link profile", "referring domains", "toxic links" | `../../references/backlink-analysis.md` | Link profile audit, quality scoring, building strategy |
 | "competitor analysis", "share of voice", "benchmarking", "compare domains" | `../../references/competitor-benchmarking.md` | Domain comparison, rank tracking, share of voice |
 | "content brief", "write brief", "brief for [topic]" | `../../references/content-brief.md` | Brief generation from keyword + SERP + gap data |
+| "test this page", "QA this blog", "did it publish correctly", "check on mobile", "is anything broken", "browser test" | **`content-qa` skill** | Real-browser test of a live/staging URL: JS render parity, mobile layout, soft 404, console/network errors, broken images and links, head survival, lab CWV. Delivery test, not a quality score. |
+| "Payload", "the CMS", "pull the draft", "update the post", "publish this", "what's in the CMS" | `../../references/payload-cms.md` | Read/write content in Payload CMS over MCP: pull a draft, audit it in draft mode, write the approved slug/title/meta back, then QA the live URL. Write operations always require confirmation. |
 
 If the request spans multiple areas (e.g., "full SEO audit"), load references in this order:
 1. technical-seo.md (site health first)
@@ -58,7 +62,13 @@ When auditing or creating a specific piece of content, follow this sequence:
 - `../../scripts/serp_scraper.py` — SERP feature extraction
 - `../../scripts/utils.py` — Shared helpers (URL normalization, HTTP fetching, output formatting)
 
-### Semrush MCP Tools (if available)
+### SEO Data Provider — Semrush *or* Ahrefs (MCP)
+
+This plugin bundles both. **Check which is actually connected before assuming**, and say which one supplied the numbers in every report — the two providers' volume and difficulty figures are not interchangeable, so never mix them in one comparison.
+
+Preference order: Semrush MCP → Ahrefs MCP → `../../scripts/semrush_api.py` (needs `config/semrush_config.json`) → public SERP/WebSearch with the limitation stated.
+
+**Semrush MCP tools:**
 - `keyword_research` — Search volume, difficulty, intent, related keywords
 - `organic_research` — Domain's organic keyword rankings and traffic
 - `backlink_research` — Backlink profile, referring domains, anchor text
@@ -68,8 +78,15 @@ When auditing or creating a specific piece of content, follow this sequence:
 - `tracking_research` — Rank tracking data
 - `trends_research` — Keyword trend data
 
-### Browser Automation (Playwright)
-For checks requiring a real browser: JS rendering, soft 404 detection, mobile rendering, mixed content, CWV lab data, lazy loading, broken link crawling. Falls back to requests + BeautifulSoup when Playwright is unavailable.
+**Ahrefs MCP:** covers the same ground — keyword metrics, organic rankings, backlink profiles, domain and URL authority, site audit data. List the server's actual tools before calling them; don't assume Semrush's names.
+
+Both connect over OAuth on first use and require an active subscription. If neither is connected, tell the user to run `/mcp` to authorize, and continue with what's available rather than stalling.
+
+### Payload CMS (MCP)
+Read and write the content itself — pull a draft, apply approved on-page fixes, check the content inventory. See `../../references/payload-cms.md`. Tool names are generated from the site's own collection slugs, so list them first. **Every write needs explicit confirmation; never call a delete tool.**
+
+### Browser Automation (Playwright MCP)
+For checks requiring a real browser: JS render parity, mobile rendering, soft 404 detection, console and network errors, mixed content, broken images and links, lab CWV. Use the `content-qa` skill — it owns this workflow. Fallback order: Playwright MCP → `../../scripts/browser_automation.py` (three checks only: `js_render`, `mobile`, `mixed_content`) → requests + BeautifulSoup, noting every skipped browser check.
 
 ## General Workflow
 

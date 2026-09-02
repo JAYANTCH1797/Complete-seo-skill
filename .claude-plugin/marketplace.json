@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "complete-seo-skill",
-  "description": "Comprehensive SEO analysis and optimization suite — technical audits, keyword research, on-page optimization, content evaluation, and more.",
+  "description": "Comprehensive SEO analysis and optimization suite — technical audits, keyword research, on-page optimization, content evaluation, and more. Ships with Semrush/Ahrefs, Payload CMS, and Playwright MCP servers.",
   "owner": {
     "name": "Jayant Chauhan",
     "email": "jayant.chauhan@inito.com"
@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "complete-seo-skill",
-      "description": "SEO suite with 10 reference modules plus a standalone scored on-page audit skill — technical audits, keyword research, on-page optimization (14-category scored rubric, live-URL and draft modes), content evaluation, backlink analysis, competitor benchmarking, and content strategy.",
+      "description": "SEO suite with 11 reference modules and three skills — a scored 14-category on-page audit (live-URL and draft modes), browser-automated content QA, and a routing suite for technical audits, keyword research, content evaluation, backlinks, and content strategy. Bundles Semrush/Ahrefs, Payload CMS, and Playwright MCP servers.",
       "author": {
         "name": "Jayant Chauhan"
       },

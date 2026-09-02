@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "semrush": {
+      "type": "http",
+      "url": "https://mcp.semrush.com/claude/v1/mcp"
+    },
+    "ahrefs": {
+      "type": "http",
+      "url": "https://api.ahrefs.com/mcp/mcp"
+    },
+    "payload": {
+      "type": "http",
+      "url": "${user_config.payload_mcp_url}",
+      "headers": {
+        "Authorization": "Bearer ${user_config.payload_api_key}"
+      }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  }
+}
