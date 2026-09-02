@@ -14,6 +14,8 @@ allowed-tools: Read, Grep, Glob, Bash, WebFetch, WebSearch, Agent
 
 # SEO Suite
 
+> **Sibling skill:** on-page auditing lives in the standalone `seo-audit` skill (`skills/seo-audit/SKILL.md`). It shares this plugin's `references/on-page-optimization.md` rubric but adds the pre-analysis intake and the live-URL vs. draft scoring modes. Route on-page requests there.
+
 ## Routing Table
 
 Match the user's request to the correct reference module. Load the reference file with the Read tool, then follow its methodology.
@@ -25,7 +27,7 @@ Match the user's request to the correct reference module. Load the reference fil
 | "content gap", "competitor keywords", "missing topics", "what are they ranking for" | `../../references/content-gap.md` | Competitor URL diffing, missing topic detection |
 | "topic cluster", "pillar page", "content strategy", "content calendar", "content pruning" | `../../references/content-cluster.md` | Pillar/spoke mapping, internal linking strategy, cannibalization |
 | "evaluate content", "is this good enough to rank", "content review", "compare against competitors", "pre-publish review", "GEO optimize", "AI optimization" | `../../references/content-evaluation.md` | Gate check: content competitiveness, competitor analysis (content + backlinks), E-E-A-T, GEO/AI extraction, featured snippets |
-| "on-page", "title tag", "meta description", "heading optimization", "optimize tags", "fix metadata", "on-page score", "on-page audit" | `../../references/on-page-optimization.md` | Scored on-page audit (13 categories, 100 points): URL slug, title, meta desc, H1, headings, keyword/entity coverage, schema, OG/social, linking, media, content structure, E-E-A-T, technical crawlability |
+| "on-page", "audit this page/blog", "score this page", "is this optimized", "title tag", "meta description", "heading optimization", "optimize tags", "fix metadata", "on-page score", "audit my draft" | **`seo-audit` skill** → `../../references/on-page-optimization.md` | Scored on-page audit (14 categories, 100 points): intent alignment, URL slug, title, meta desc, H1, headings, keyword/entity coverage, schema, OG/social, linking, media, content structure, E-E-A-T, technical crawlability. Supports live-URL and pre-publish **draft mode**. Prefer invoking the standalone `seo-audit` skill — it carries the Step 0 intake and mode selection. |
 | "SERP analysis", "SERP features", "what does the SERP look like" | `../../references/serp-analysis.md` | Feature detection, SERP layout, intent matching |
 | "backlinks", "link building", "link profile", "referring domains", "toxic links" | `../../references/backlink-analysis.md` | Link profile audit, quality scoring, building strategy |
 | "competitor analysis", "share of voice", "benchmarking", "compare domains" | `../../references/competitor-benchmarking.md` | Domain comparison, rank tracking, share of voice |
@@ -36,7 +38,7 @@ If the request spans multiple areas (e.g., "full SEO audit"), load references in
 2. keyword-research.md (what to target)
 3. content-gap.md (what's missing across the site)
 4. content-evaluation.md (is the content competitive for its keyword?)
-5. on-page-optimization.md (are the tags and structure correct?)
+5. on-page-optimization.md via the `seo-audit` skill (are intent, tags, and structure correct?)
 
 ## Content Pipeline (for new or existing content)
 
@@ -44,7 +46,7 @@ When auditing or creating a specific piece of content, follow this sequence:
 1. keyword-research.md → finalize keyword
 2. content-brief.md → generate brief, write content
 3. **content-evaluation.md → gate check: is content competitive?** (if no → fix content or change keyword)
-4. on-page-optimization.md → optimize tags and structure
+4. `seo-audit` skill (on-page-optimization.md) → score intent + tags + structure; use draft mode pre-publish
 5. technical-seo.md → verify page-level technical health
 
 ## Available Tools

@@ -100,4 +100,4 @@ This audit used:
 - Crawl depth: {pages_crawled} pages
 - Tools: {tools_used}
 - Data sources: {data_sources}
-- Scoring: 13-category weighted rubric (100 points total) per references/on-page-optimization.md
+- Scoring: 14-category weighted rubric (100 points total) per references/on-page-optimization.md

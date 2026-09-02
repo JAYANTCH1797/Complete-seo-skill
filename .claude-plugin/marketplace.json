@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "complete-seo-skill",
-      "description": "SEO suite with 10 skill modules for technical audits, keyword research, on-page optimization, content evaluation, backlink analysis, competitor benchmarking, and content strategy.",
+      "description": "SEO suite with 10 reference modules plus a standalone scored on-page audit skill — technical audits, keyword research, on-page optimization (14-category scored rubric, live-URL and draft modes), content evaluation, backlink analysis, competitor benchmarking, and content strategy.",
       "author": {
         "name": "Jayant Chauhan"
       },
