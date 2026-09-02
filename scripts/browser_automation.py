@@ -1,7 +1,7 @@
 """Playwright-based browser automation for SEO checks.
 
 Usage:
-    python browser_automation.py <url> [--check js_render|mobile|mixed_content|cwv] [--json]
+    python browser_automation.py <url> [--check js_render|mobile|mixed_content] [--json]
 
 Requires: pip install playwright && playwright install chromium
 """

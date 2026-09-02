@@ -1,10 +1,24 @@
 {
   "name": "complete-seo-skill",
-  "description": "Comprehensive SEO analysis and optimization suite — technical audits, keyword research, on-page optimization, content evaluation, backlink analysis, competitor benchmarking, and more.",
-  "version": "1.0.0",
+  "description": "Comprehensive SEO analysis and optimization suite — technical audits, keyword research, on-page optimization, content evaluation, backlink analysis, competitor benchmarking, and more. Bundles Semrush/Ahrefs, Payload CMS, and Playwright MCP servers.",
+  "version": "1.2.0",
   "author": {
     "name": "Jayant Chauhan"
   },
   "homepage": "https://github.com/JAYANTCH1797/Complete-seo-skill",
-  "repository": "https://github.com/JAYANTCH1797/Complete-seo-skill"
+  "repository": "https://github.com/JAYANTCH1797/Complete-seo-skill",
+  "keywords": ["seo", "content", "semrush", "ahrefs", "payload-cms", "playwright"],
+  "userConfig": {
+    "payload_mcp_url": {
+      "type": "string",
+      "title": "Payload CMS MCP URL",
+      "description": "Full URL of your Payload MCP endpoint, e.g. https://your-site.com/api/mcp. Leave blank if you don't use Payload — the payload server will simply show as unconnected."
+    },
+    "payload_api_key": {
+      "type": "string",
+      "title": "Payload MCP API key",
+      "description": "API key from your Payload admin panel (MCP → API Keys). Sent as an Authorization: Bearer header.",
+      "sensitive": true
+    }
+  }
 }
