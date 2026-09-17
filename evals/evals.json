@@ -1,6 +1,6 @@
 {
   "skill_name": "complete-seo-skill",
-  "notes": "Two suites. TRIGGER cases check which skill fires from a bare user prompt. DETERMINISM cases check that the seo-audit rubric produces stable, arithmetically valid scores on frozen fixtures. All fixtures are offline — no Semrush, Ahrefs, Payload, or live URLs — so every case is runnable in CI.",
+  "notes": "Two suites. TRIGGER cases check which skill fires from a bare user prompt. DETERMINISM cases check that the seo-audit rubric produces stable, arithmetically valid scores on frozen fixtures. All fixtures are offline — no Semrush, Ahrefs, Payload, or live URLs — so every case is runnable in CI. Run determinism cases at n=5. Cases 6-8 each assert reproducibility against their own 5-run median.",
   "evals": [
     {
       "id": 1,
@@ -66,7 +66,9 @@
       "suite": "determinism",
       "prompt": "Audit this draft using the intake answers written at the top of the file. Do not ask me questions — everything you need is in the file. Produce the full scored audit.",
       "expected_output": "A draft-mode audit: 9 categories scored, 5 marked N/A, normalized against an assessable weight of 71, closing with a build-time checklist. Run 5x; scores should cluster tightly.",
-      "files": ["evals/fixtures/clean-draft.md"],
+      "files": [
+        "evals/fixtures/clean-draft.md"
+      ],
       "assertions": [
         "The audit runs in draft mode, not live-URL mode",
         "The assessable weight (denominator) is 71",
@@ -84,14 +86,19 @@
       "suite": "determinism",
       "prompt": "Audit this draft using the intake answers written at the top of the file. Do not ask me questions — everything you need is in the file. Produce the full scored audit.",
       "expected_output": "Category 0 scores 0-1 (explainer page targeting a review query, on the brand's own domain) and the total is capped at 70.",
-      "files": ["evals/fixtures/intent-mismatch.md"],
+      "files": [
+        "evals/fixtures/intent-mismatch.md"
+      ],
       "assertions": [
         "Category 0 Intent Alignment scores 0 or 1",
         "The intent score cap is explicitly applied and stated",
         "The final reported score does not exceed 70",
         "The audit identifies the page type as wrong for a review query",
         "The audit flags the self-review problem (brand reviewing its own product on its own domain)",
-        "Intent is named as the highest-priority fix, ahead of any tag-level fix"
+        "Intent is named as the highest-priority fix, ahead of any tag-level fix",
+        "The final reported score falls within ±6 points of the 5-run median",
+        "The cap is applied to the final /100 score after normalization, not to the raw point sum",
+        "Exactly one remedy is recommended, and the verbatim slug/title/meta target that remedy only — not two competing keyword targets"
       ]
     },
     {
@@ -99,14 +106,18 @@
       "suite": "determinism",
       "prompt": "Audit this draft using the intake answers written at the top of the file. Do not ask me questions — everything you need is in the file. Produce the full scored audit.",
       "expected_output": "Slug, title, and meta are unset; the audit scores what it can, notes they're unset, and supplies verbatim recommended values.",
-      "files": ["evals/fixtures/missing-meta.md"],
+      "files": [
+        "evals/fixtures/missing-meta.md"
+      ],
       "assertions": [
         "The audit notes that slug, title tag, and meta description are unset rather than inventing scores for them",
         "A specific recommended slug is given verbatim",
         "A specific recommended title tag is given verbatim, within 50-60 characters",
         "A specific recommended meta description is given verbatim, within 145-160 characters",
-        "The duplicate H2 ('Everything About The Luteal Phase.') is flagged under Heading Architecture",
-        "Trailing punctuation on headings is flagged"
+        "The duplicated heading text ('Everything About The Luteal Phase.') is flagged under Heading Architecture — it appears twice at different levels (## and ###)",
+        "Trailing punctuation on headings is flagged",
+        "The normalized score falls within ±6 points of the 5-run median",
+        "Slug, title, and meta each score 0 rather than an inferred partial value"
       ]
     },
     {
@@ -114,7 +125,9 @@
       "suite": "determinism",
       "prompt": "Audit this draft using the intake answers written at the top of the file. Do not ask me questions. Then state the sum of all 14 category weights.",
       "expected_output": "Weights sum to exactly 100.",
-      "files": ["evals/fixtures/clean-draft.md"],
+      "files": [
+        "evals/fixtures/clean-draft.md"
+      ],
       "assertions": [
         "The stated sum of all 14 category weights is exactly 100",
         "Category 7 Schema Markup is weighted /6",
