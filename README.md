@@ -237,7 +237,7 @@ evals/
 Two suites:
 
 - **Trigger** (5 cases) — does the right skill fire from a bare prompt? "score this page" must reach `seo-audit`, not the router; "test this blog post" must reach `content-qa`, not `seo-audit`.
-- **Determinism** (4 cases) — repeated independent audits of frozen fixtures, asserting the draft denominator is 71, weights sum to 100, exactly five categories are N/A, the intent cap fires on a mismatched page, and each score lands within ±6 of its own 5-run median.
+- **Determinism** (5 cases) — repeated independent audits of frozen fixtures, asserting the draft denominator is 71, weights sum to 100, exactly five categories are N/A, the intent cap fires on a mismatched page, and each score lands within ±6 of its own 5-run median.
 
 Fixtures carry their intake answers inline so runs don't diverge on Step 0 assumptions — the point is to measure rubric variance, not intake variance. Nothing touches Semrush, Ahrefs, Payload, or a live URL, so the suite runs anywhere.
 
@@ -250,6 +250,10 @@ Fixtures carry their intake answers inline so runs don't diverge on Step 0 assum
 | `missing-meta.md` | 3 | 2.82 | 1.63 |
 
 21/21 assertions passed; trigger routing 5/5. Denominator 71 and weights-sum-100 held on every run.
+
+**The intent cap is a mechanism, not decoration** — measured separately, because the ordinary mismatch fixture couldn't prove it. `intent-mismatch.md` scores 31–35 unaided, so `min(score, 70)` never fired. `cap-binding.md` is textbook on every axis *except* intent — a review-intent page the brand publishes about itself. Three runs scored **73.2 / 78.9 / 74.7 uncapped**, and the cap pulled all three to exactly 70. Without it, a page perfect everywhere but pointed at the wrong intent would report an A: Category 0 is worth 6 points, so failing it costs 7 normalized points, nowhere near enough to signal "do not ship."
+
+A side effect worth knowing: for pages in that class the cap also makes the headline score *reproducible* — uncapped spread was 5.6 points, capped spread was zero.
 
 Re-baseline the fixtures whenever the rubric's weights or draft-mode protocol change — the assertions encode the current numbers.
 
