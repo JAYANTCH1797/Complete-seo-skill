@@ -4,7 +4,7 @@ A Claude Code plugin for doing SEO work properly — scored audits, keyword rese
 
 It is opinionated on purpose. The rubrics encode *how* to judge a page, not just what to look at, so two audits of the same URL agree on the score.
 
-**Version:** 1.2.0 · **Contents:** 3 skills · 11 reference modules · 4 bundled MCP servers · 4 Python CLIs
+**Version:** 1.2.0 · **Contents:** 3 skills · 13 reference modules · 4 bundled MCP servers · 4 Python CLIs
 
 ---
 
@@ -79,7 +79,7 @@ Matches your request to the right reference module and follows its methodology. 
 
 ---
 
-## The 11 reference modules
+## The 13 reference modules
 
 Each is a self-contained methodology, not a checklist.
 
@@ -95,6 +95,8 @@ Each is a self-contained methodology, not a checklist.
 | `backlink-analysis.md` | 521 | 7-step link profile audit, brand mention auditing, AI citation tracking |
 | `competitor-benchmarking.md` | 527 | 8-step benchmarking, bifurcated CTR model for AIO-present vs AIO-absent queries, AI Share of Voice |
 | `content-brief.md` | 569 | 10-step brief generator with GEO optimization and chunk-level targeting |
+| `social-topic-mining.md` | 86 | Scrape Reddit/YouTube/Instagram → extract a hierarchical topic label per item (L0 atomic → L1 cluster → L2 head) → roll up by entity-role peeling → map into your taxonomy → ranked seed keywords. Feeds keyword research Path A |
+| `content-scraping.md` | 45 | Harvest adapters behind the above: Reddit (PRAW, else Apify with a comment fallback chain), YouTube + subtitles, Instagram. Each returns `{source, url, text, engagement}` |
 | `payload-cms.md` | 129 | Read/write content in Payload over MCP; the draft → audit → fix → publish → QA loop |
 
 ---

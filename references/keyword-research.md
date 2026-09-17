@@ -55,6 +55,8 @@ No default — let the user pick. Multiple paths can be combined.
 
 ### Path A — Claude Researches Online
 
+> **Method:** harvest via `references/content-scraping.md` (Reddit PRAW/Apify, YouTube + subtitles, Instagram), then extract and roll up topics via `references/social-topic-mining.md` (L0→L2, entity-role peeling). `scripts/reddit_miner.py` is the Reddit Tier-1 adapter. Extracted L0/L1 topics become the seed keywords that feed the Research Gate below.
+
 **Conversation before running anything.** Propose a research plan in one message:
 
 > Here's what I'd suggest for [brand/product]:
