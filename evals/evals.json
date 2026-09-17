@@ -1,0 +1,126 @@
+{
+  "skill_name": "complete-seo-skill",
+  "notes": "Two suites. TRIGGER cases check which skill fires from a bare user prompt. DETERMINISM cases check that the seo-audit rubric produces stable, arithmetically valid scores on frozen fixtures. All fixtures are offline — no Semrush, Ahrefs, Payload, or live URLs — so every case is runnable in CI.",
+  "evals": [
+    {
+      "id": 1,
+      "suite": "trigger",
+      "prompt": "Score this page: https://example.com/blog/anovulation-symptoms",
+      "expected_output": "The seo-audit skill fires and begins the Step 0 intake or states inferred assumptions.",
+      "files": [],
+      "assertions": [
+        "The seo-audit skill is invoked",
+        "The seo-suite router is NOT invoked as the primary skill",
+        "The response references the 14-category rubric or Step 0 intake"
+      ]
+    },
+    {
+      "id": 2,
+      "suite": "trigger",
+      "prompt": "audit this blog and tell me what to fix",
+      "expected_output": "The seo-audit skill fires, not the generic router.",
+      "files": [],
+      "assertions": [
+        "The seo-audit skill is invoked",
+        "The seo-suite router is NOT invoked as the primary skill"
+      ]
+    },
+    {
+      "id": 3,
+      "suite": "trigger",
+      "prompt": "test this blog post, I just published it: https://example.com/blog/luteal-phase",
+      "expected_output": "The content-qa skill fires — this is a delivery test, not a quality score.",
+      "files": [],
+      "assertions": [
+        "The content-qa skill is invoked",
+        "The seo-audit skill is NOT invoked as the primary skill",
+        "The response mentions browser-based checks (render parity, mobile, console/network, or broken assets)"
+      ]
+    },
+    {
+      "id": 4,
+      "suite": "trigger",
+      "prompt": "I need keyword research for PCOS content",
+      "expected_output": "The seo-suite router fires and routes to keyword-research.md.",
+      "files": [],
+      "assertions": [
+        "The seo-suite skill is invoked",
+        "The seo-audit skill is NOT invoked",
+        "The response routes to references/keyword-research.md"
+      ]
+    },
+    {
+      "id": 5,
+      "suite": "trigger",
+      "prompt": "check our backlink profile for toxic links",
+      "expected_output": "The seo-suite router fires and routes to backlink-analysis.md.",
+      "files": [],
+      "assertions": [
+        "The seo-suite skill is invoked",
+        "Neither seo-audit nor content-qa is invoked",
+        "The response routes to references/backlink-analysis.md"
+      ]
+    },
+    {
+      "id": 6,
+      "suite": "determinism",
+      "prompt": "Audit this draft using the intake answers written at the top of the file. Do not ask me questions — everything you need is in the file. Produce the full scored audit.",
+      "expected_output": "A draft-mode audit: 9 categories scored, 5 marked N/A, normalized against an assessable weight of 71, closing with a build-time checklist. Run 5x; scores should cluster tightly.",
+      "files": ["evals/fixtures/clean-draft.md"],
+      "assertions": [
+        "The audit runs in draft mode, not live-URL mode",
+        "The assessable weight (denominator) is 71",
+        "Exactly five categories are marked N/A: 7 Schema, 8 OG & Social, 10 Media, 13 Technical Crawlability, and the link-resolution half of 9",
+        "The normalized score is reported as a value out of 100, not a raw sum",
+        "A build-time checklist is included",
+        "The normalized score falls within ±6 points of the 5-run median",
+        "Category 0 Intent Alignment scores 4 or higher (intent is correctly aligned in this fixture)",
+        "No FAQ schema is recommended",
+        "No keyword density metric appears"
+      ]
+    },
+    {
+      "id": 7,
+      "suite": "determinism",
+      "prompt": "Audit this draft using the intake answers written at the top of the file. Do not ask me questions — everything you need is in the file. Produce the full scored audit.",
+      "expected_output": "Category 0 scores 0-1 (explainer page targeting a review query, on the brand's own domain) and the total is capped at 70.",
+      "files": ["evals/fixtures/intent-mismatch.md"],
+      "assertions": [
+        "Category 0 Intent Alignment scores 0 or 1",
+        "The intent score cap is explicitly applied and stated",
+        "The final reported score does not exceed 70",
+        "The audit identifies the page type as wrong for a review query",
+        "The audit flags the self-review problem (brand reviewing its own product on its own domain)",
+        "Intent is named as the highest-priority fix, ahead of any tag-level fix"
+      ]
+    },
+    {
+      "id": 8,
+      "suite": "determinism",
+      "prompt": "Audit this draft using the intake answers written at the top of the file. Do not ask me questions — everything you need is in the file. Produce the full scored audit.",
+      "expected_output": "Slug, title, and meta are unset; the audit scores what it can, notes they're unset, and supplies verbatim recommended values.",
+      "files": ["evals/fixtures/missing-meta.md"],
+      "assertions": [
+        "The audit notes that slug, title tag, and meta description are unset rather than inventing scores for them",
+        "A specific recommended slug is given verbatim",
+        "A specific recommended title tag is given verbatim, within 50-60 characters",
+        "A specific recommended meta description is given verbatim, within 145-160 characters",
+        "The duplicate H2 ('Everything About The Luteal Phase.') is flagged under Heading Architecture",
+        "Trailing punctuation on headings is flagged"
+      ]
+    },
+    {
+      "id": 9,
+      "suite": "determinism",
+      "prompt": "Audit this draft using the intake answers written at the top of the file. Do not ask me questions. Then state the sum of all 14 category weights.",
+      "expected_output": "Weights sum to exactly 100.",
+      "files": ["evals/fixtures/clean-draft.md"],
+      "assertions": [
+        "The stated sum of all 14 category weights is exactly 100",
+        "Category 7 Schema Markup is weighted /6",
+        "Category 13 Technical Crawlability is weighted /5",
+        "Category 0 Intent Alignment is weighted /6"
+      ]
+    }
+  ]
+}
