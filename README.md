@@ -59,7 +59,7 @@ Triggers on things like *"audit this blog"*, *"score this page"*, *"is this opti
 
 Three things make it different from a generic audit:
 
-- **Intent is a score cap.** Category 0 asks whether this is the right *type* of page for the query, and whether slug, title, and H1 all point at the same one. If it scores 0–1 — an explainer targeting a review query, a brand self-reviewing its own product — the total is capped at 70 no matter how clean the tags are. A well-optimized page aimed at the wrong intent doesn't deserve a B+.
+- **Intent is a score cap.** Category 0 asks whether this is the right *type* of page for the query, and whether slug, title, and H1 all point at the same one. If it scores 0–1 — an explainer targeting a review query, a brand self-reviewing its own product — the final /100 score is capped at 70 no matter how clean the tags are. A well-optimized page aimed at the wrong intent doesn't deserve a B+.
 - **Draft mode.** Audit a Google Doc, Markdown file, or pasted draft *before* publishing. The five HTML-dependent categories are marked N/A, the score is normalized against the assessable weight of 71, and the audit closes with a build-time checklist. No invented scores for HTML that doesn't exist yet.
 - **A soft intake gate.** It asks for primary keyword, intent, branded/non-branded, and page type first — but if you say "just audit it," it infers them, states every assumption in the header, and marks the score provisional. It never refuses to audit.
 
@@ -219,6 +219,37 @@ These are enforced across every reference and skill:
 ```
 
 API key files (`semrush_config.json`, `reddit_config.json`) are gitignored. Keys for the MCP servers are handled by Claude Code — OAuth for Semrush/Ahrefs, and the Payload key is stored in your OS keychain via plugin `userConfig`. Never paste a key into chat.
+
+---
+
+## Evals
+
+The rubric's whole promise is that two audits of the same input agree. `evals/` measures that rather than asserting it.
+
+```
+evals/
+├── evals.json          # 9 cases, 44 assertions
+└── fixtures/           # 3 frozen drafts, fully offline
+```
+
+Two suites:
+
+- **Trigger** (5 cases) — does the right skill fire from a bare prompt? "score this page" must reach `seo-audit`, not the router; "test this blog post" must reach `content-qa`, not `seo-audit`.
+- **Determinism** (4 cases) — repeated independent audits of frozen fixtures, asserting the draft denominator is 71, weights sum to 100, exactly five categories are N/A, the intent cap fires on a mismatched page, and each score lands within ±6 of its own 5-run median.
+
+Fixtures carry their intake answers inline so runs don't diverge on Step 0 assumptions — the point is to measure rubric variance, not intake variance. Nothing touches Semrush, Ahrefs, Payload, or a live URL, so the suite runs anywhere.
+
+**Last measured** (11 runs):
+
+| Fixture | n | Score spread | SD |
+|---|---|---|---|
+| `clean-draft.md` | 5 | 1.41 | 0.77 |
+| `intent-mismatch.md` | 3 | 4.21 | 2.14 |
+| `missing-meta.md` | 3 | 2.82 | 1.63 |
+
+21/21 assertions passed; trigger routing 5/5. Denominator 71 and weights-sum-100 held on every run.
+
+Re-baseline the fixtures whenever the rubric's weights or draft-mode protocol change — the assertions encode the current numbers.
 
 ---
 

@@ -69,12 +69,14 @@ Read `../../references/on-page-optimization.md` and score each applicable catego
 | 6 | Keyword & Semantic Coverage | /7 | 13 | Technical Crawlability | /5 |
 
 Two rules that override naive tallying:
-- **Intent is a score CAP.** If Category 0 scores 0–1 (fundamental mismatch — e.g. an explainer page targeting a review query, or a brand self-reviewing its own product for a "[brand] review" query), the total **cannot exceed 70** regardless of the other categories. Apply the cap after summing and state it.
+- **Intent is a score CAP.** If Category 0 scores 0–1 (fundamental mismatch — e.g. an explainer page targeting a review query, or a brand self-reviewing its own product for a "[brand] review" query), the **final reported /100 score cannot exceed 70** regardless of the other categories. Apply it last, to the /100 figure — in draft mode that means *after* normalization, never to the raw sum. State the cap even when it is non-binding.
 - **Review/comparison pages** get extra table-stakes checks: named competitors + price + comparison points are *required* entities (Cat 6), a comparison table is effectively mandatory (Cat 11), and first-hand "experience" signals are weighted and protected (Cat 12) — never strip an experience-demonstrating heading just to insert a keyword that's already placed elsewhere. See the "Review & Comparison Pages — Quick Reference" in the reference.
 
 ### Step 3 — Output
 
 Use the audit output format in the reference (header block → score-breakdown table → detailed findings → prioritized fixes). Lead findings with the highest-leverage issue, which is frequently intent, not a tag. Keep fixes specific and actionable (give the recommended slug/title/meta verbatim, not "improve the title"). For draft mode, end with the build-time checklist.
+
+**When the intent cap fires, commit to one remedy before writing any tags.** State the single recommended path — retarget the page to the intent it actually serves, or rebuild it for the declared keyword — and then give the verbatim slug, title, and meta **for that path only**. Never emit tags aimed at a keyword the audit has just said the page cannot win; offering two tag sets for two different keywords leaves the reader with no decision made.
 
 ## Reference files
 

@@ -138,7 +138,7 @@ Use WebFetch or HTML parsing for:
 **Categories assessable from a draft (score these):**
 0 Intent Alignment · 1 URL Slug* · 2 Title Tag* · 3 Meta Description* · 4 H1 · 5 Heading Architecture · 6 Keyword & Semantic Coverage · 9 Linking (content/anchor side only) · 11 Content Structure & UX · 12 E-E-A-T Signals (as written)
 
-\* Slug/title/meta are scored against the **proposed/intended** values if the draft specifies them; if it doesn't, score what can be inferred and note they're unset.
+\* Slug/title/meta are scored against the **proposed/intended** values if the draft specifies them. **If the draft does not specify one, score that category 0, list it as unset in the findings, and supply the recommended value verbatim in the fixes section.** Do not score an inferred or hypothetical value — inferring is what makes two audits of the same draft disagree.
 
 **Categories NOT assessable from a draft (mark N/A):**
 7 Schema Markup · 8 OG & Social Tags · 10 Media Optimization · 13 Technical Crawlability · and the HTML-implementation half of 9 Linking (whether links resolve, canonical of targets).
@@ -178,7 +178,9 @@ State it explicitly, e.g.: *"Scored 55 / 71 assessable points → normalized 77/
 - 2–3: Real mismatch — slug/title and H1 chase different intents, or page type is a weak fit for the query.
 - 0–1: Page type is wrong for the intent (e.g., explainer page targeting a review query; self-reviewing-own-product for a "[brand] review" query).
 
-> **⚠️ Intent is also a score CAP.** If Category 0 scores **0–1 (fundamental mismatch)**, the overall audit total **cannot exceed 70**, regardless of how strong the other categories are. A beautifully optimized page aimed at the wrong intent does not deserve a B+. Apply the cap *after* summing, and state it in the audit.
+> **⚠️ Intent is also a score CAP.** If Category 0 scores **0–1 (fundamental mismatch)**, the **final reported /100 score cannot exceed 70**, regardless of how strong the other categories are. A beautifully optimized page aimed at the wrong intent does not deserve a B+.
+>
+> **Apply the cap last, to the /100 figure.** In live-URL mode that is the summed total. In draft mode it is the score *after* normalization — never cap the raw point sum, which is out of the assessable weight (71), not out of 100. State the cap in the audit even when it is non-binding, e.g. *"Intent scored 1 → cap applies; normalized score 34 is already below 70, so the cap does not change the result."*
 
 ---
 
