@@ -1,6 +1,6 @@
 {
   "skill_name": "complete-seo-skill",
-  "notes": "Two suites. TRIGGER cases check which skill fires from a bare user prompt. DETERMINISM cases check that the seo-audit rubric produces stable, arithmetically valid scores on frozen fixtures. All fixtures are offline — no Semrush, Ahrefs, Payload, or live URLs — so every case is runnable in CI. Run determinism cases at n=5. Cases 6-8 each assert reproducibility against their own 5-run median.",
+  "notes": "Two suites. TRIGGER cases check which skill fires from a bare user prompt. DETERMINISM cases check that the seo-audit rubric produces stable, arithmetically valid scores on frozen fixtures. All fixtures are offline — no Semrush, Ahrefs, Payload, or live URLs — so every case is runnable in CI. Run determinism cases at n=5, except case 10 at n=8 — its binding margin over the 70 threshold is only ~2.3 raw points, so a small sample could miss a run landing under 70. If one does, that is a fixture-construction bug, not a cap bug: fix the fixture, not the threshold. Cases 6-8 each assert reproducibility against their own 5-run median.",
   "evals": [
     {
       "id": 1,
@@ -133,6 +133,23 @@
         "Category 7 Schema Markup is weighted /6",
         "Category 13 Technical Crawlability is weighted /5",
         "Category 0 Intent Alignment is weighted /6"
+      ]
+    },
+    {
+      "id": 10,
+      "suite": "determinism",
+      "prompt": "Audit this draft using the intake answers written at the top of the file. Do not ask me questions — everything you need is in the file. Produce the full scored audit, and report the normalized score both before and after any intent cap is applied.",
+      "expected_output": "A page that is textbook on every axis except intent: Category 0 scores 0-1 on the self-review ground, the uncapped normalized score exceeds 70, and the cap pulls the reported score down to exactly 70. This is the case that proves the cap is a mechanism rather than decoration — intent-mismatch.md cannot, because that page scores 31-35 unaided.",
+      "files": ["evals/fixtures/cap-binding.md"],
+      "assertions": [
+        "Category 0 Intent Alignment scores 0 or 1",
+        "The failure ground is the self-review problem (brand reviewing its own product on its own domain for a branded review query), not a tag-level or structural fault",
+        "The uncapped normalized score is greater than 70 — i.e. the cap actually changes the reported number",
+        "The final reported score is exactly 70",
+        "Every category other than 0 scores at or above 70% of its weight, confirming the fixture isolates intent",
+        "Category 9 Linking scores 4 or 5 of its 5 draft-mode points (3 internal links, 3 independent external citations)",
+        "Exactly one remedy is recommended, and the verbatim slug/title/meta target that remedy only",
+        "No tags are emitted for the 'inito review' keyword the audit says the domain cannot win"
       ]
     }
   ]
