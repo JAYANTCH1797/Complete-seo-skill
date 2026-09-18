@@ -84,6 +84,17 @@ Use the audit output format in the reference (header block → score-breakdown t
 
 > This skill ships inside the `complete-seo-skill` plugin. Load `../../references/technical-seo.md` when the task is a full technical crawl, and `../../references/content-evaluation.md` when content hasn't yet been evaluated for depth/coverage. This skill assumes content has already passed evaluation and focuses on on-page packaging + scoring. For anything outside on-page (keyword research, content gap, backlinks, SERP, competitor benchmarking), use the `seo-suite` skill's routing table.
 
+## Standing rules
+
+This skill fires directly without going through the `seo-suite` router, so the rules that bear on an audit are repeated here:
+
+- **Never recommend adding FAQ schema**, and never deduct points for its absence. Eligibility is restricted and keeps shifting — detect and flag it if present.
+- **Never recommend HowTo schema** (deprecated 2023). Flag it for removal where found.
+- **No keyword density.** Score semantic coverage and entity completeness instead (Category 6).
+- **No static word-count minimums.** Judge length against the top 3 results for the primary keyword.
+- **Never reference FID.** INP replaced it in March 2024 — relevant in live-URL mode, where Category 13 touches Core Web Vitals.
+- **Name the data provider** if Semrush or Ahrefs supplied the SERP or entity checklist, and never mix the two in one comparison. If neither is connected, say so rather than estimating.
+
 ## Notes
 
 - **Data collection (live URL):** WebFetch often strips `<head>`; use `curl` via Bash for meta/OG/schema. FAQ schema on Elementor sites is injected *inside accordion widgets* in the body — check body HTML, not just `<head>`.
