@@ -4,7 +4,7 @@ A Claude Code plugin for doing SEO work properly — scored audits, keyword rese
 
 It is opinionated on purpose. The rubrics encode *how* to judge a page, not just what to look at, so two audits of the same URL agree on the score.
 
-**Version:** 1.3.0 · **Contents:** 3 skills · 13 reference modules · 4 bundled MCP servers · 4 Python CLIs
+**Version:** 1.3.1 · **Contents:** 3 skills · 13 reference modules · 4 bundled MCP servers · 4 Python CLIs
 
 ---
 
@@ -198,7 +198,7 @@ These are enforced across every reference and skill:
 │   ├── competitors.json      # Your competitor domains
 │   ├── semrush_config.json   # gitignored
 │   └── reddit_config.json    # gitignored
-└── CLAUDE.md                 # Project rules for Claude
+└── .claude/CLAUDE.md         # Developer notes (not shipped — rules live in the skills)
 ```
 
 ### Bundled MCP servers

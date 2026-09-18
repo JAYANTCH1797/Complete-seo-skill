@@ -18,6 +18,20 @@ allowed-tools: Read, Grep, Glob, Bash, WebFetch, WebSearch, Agent
 > - `seo-audit` (`skills/seo-audit/SKILL.md`) — scored on-page audit. Shares this plugin's `references/on-page-optimization.md` rubric, and adds the pre-analysis intake plus live-URL vs. draft scoring modes.
 > - `content-qa` (`skills/content-qa/SKILL.md`) — real-browser QA of a published page (render parity, mobile, broken assets, console errors). Use after a publish or deploy.
 
+## Standing rules
+
+These apply to every module in the routing table below. They override anything a reference file says.
+
+- **Name the data provider.** Check which SEO data MCP is connected (Semrush **or** Ahrefs) before falling back to anything else, and say which one supplied the numbers. Never mix Semrush and Ahrefs metrics in one comparison — their volume and difficulty figures are not interchangeable.
+- **No fabricated numbers.** If neither provider is connected, say volume/KD is unavailable rather than estimating it. `scripts/semrush_api.py` is a stub with no executable code — never call it.
+- **Browser checks, in order:** Playwright MCP → `scripts/browser_automation.py` (three checks only: `js_render`, `mobile`, `mixed_content`) → requests + BeautifulSoup. Name the tier that ran and list every skipped check.
+- **Payload CMS writes need explicit confirmation**, one document at a time, with a before → after diff. Never call a Payload delete tool.
+- **Never reference FID.** INP replaced it as a Core Web Vital in March 2024.
+- **Never recommend HowTo schema** (deprecated by Google in 2023). Flag it for removal where found.
+- **Never recommend adding FAQ schema.** Rich-result eligibility was restricted to a narrow set of domain types in 2023 and keeps shifting. Detect and flag it if present; never deduct points for its absence.
+- **No keyword density.** Use semantic coverage and topical completeness instead.
+- **No static word-count minimums.** Benchmark length against the top 3 results for the actual keyword.
+
 ## Routing Table
 
 Match the user's request to the correct reference module. Load the reference file with the Read tool, then follow its methodology.
