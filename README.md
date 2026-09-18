@@ -4,7 +4,7 @@ A Claude Code plugin for doing SEO work properly — scored audits, keyword rese
 
 It is opinionated on purpose. The rubrics encode *how* to judge a page, not just what to look at, so two audits of the same URL agree on the score.
 
-**Version:** 1.2.0 · **Contents:** 3 skills · 13 reference modules · 4 bundled MCP servers · 4 Python CLIs
+**Version:** 1.3.0 · **Contents:** 3 skills · 13 reference modules · 4 bundled MCP servers · 4 Python CLIs
 
 ---
 
